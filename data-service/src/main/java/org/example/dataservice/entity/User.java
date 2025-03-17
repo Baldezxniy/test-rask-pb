@@ -61,8 +61,8 @@ public class User {
         this.middleName = middleName;
     }
 
-    public void setAddress(String phoneNumber) {
-        this.address = phoneNumber;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setCreditCards(List<CreditCard> creditCards) {

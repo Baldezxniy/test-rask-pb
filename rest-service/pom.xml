@@ -11,7 +11,7 @@
 
     <artifactId>rest-service</artifactId>
     <name>service-rest</name>
-    <description>Rest service</description>
+    <description>Rest service - handling incoming http request</description>
 
     <properties>
         <java.version>17</java.version>

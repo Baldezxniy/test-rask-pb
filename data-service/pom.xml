@@ -11,7 +11,7 @@
     <artifactId>data-service</artifactId>
     <version>0.0.1</version>
     <name>data-service</name>
-    <description>data-service</description>
+    <description>Data service - store user details</description>
 
     <properties>
         <java.version>17</java.version>
