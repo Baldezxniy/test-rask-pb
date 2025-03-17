@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: mock-service-2
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+    pool:
+      enabled: true
+      max-connections:
+    packages:
+      trust-all: true
+
+server:
+  port: 0 # random free port

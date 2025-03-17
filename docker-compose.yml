@@ -1,0 +1,100 @@
+networks:
+  test-task:
+    driver: bridge
+
+services:
+  activemq:
+    image: apache/activemq-classic:6.1.0
+    container_name: activemq
+    restart: always
+    ports:
+      # jms
+      - "61616:61616"
+      # ui
+      - "8161:8161"
+    environment:
+      - ACTIVEMQ_ADMIN_LOGIN=username
+      - ACTIVEMQ_ADMIN_PASSWORD=password
+    networks:
+      - test-task
+
+  rest-service:
+    build:
+      context: .
+      dockerfile: rest-service/Dockerfile
+    container_name: rest-service
+    hostname: rest-service
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - test-task
+    depends_on:
+      - activemq
+
+  mock-service-1:
+    build:
+      context: .
+      dockerfile: mock-service-1/Dockerfile
+    container_name: mock-service-1
+    hostname: mock-service-1
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - test-task
+    depends_on:
+      - activemq
+
+  mock-service-2:
+    build:
+      context: .
+      dockerfile: mock-service-2/Dockerfile
+    container_name: mock-service-2
+    hostname: mock-service-2
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - test-task
+    depends_on:
+      - activemq
+
+  mock-service-3:
+    build:
+      context: .
+      dockerfile: mock-service-3/Dockerfile
+    container_name: mock-service-3
+    hostname: mock-service-3
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - test-task
+    depends_on:
+      - activemq
+
+  data-service:
+    build:
+      context: .
+      dockerfile: data-service/Dockerfile
+    container_name: data-service
+    hostname: data-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - test-task
+    depends_on:
+      - activemq
+      - test-task-postgres-db
+
+  test-task-postgres-db:
+    image: postgres:15-alpine
+    container_name: test-postgres-db
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: users
+    hostname: test-task-postgres-db
+    ports:
+      - "5432:5432"
+    networks:
+      - test-task
